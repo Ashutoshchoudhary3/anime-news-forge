@@ -1,7 +1,15 @@
 import { Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const Header = () => {
+interface HeaderProps {
+  onGenerateStory: () => void;
+}
+
+const Header = ({ onGenerateStory }: HeaderProps) => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 py-4">
@@ -21,21 +29,38 @@ const Header = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#sports" className="text-sm font-medium text-sports-primary hover:text-sports-primary/80 transition-smooth">
+            <button 
+              onClick={() => scrollToSection('sports')}
+              className="text-sm font-medium text-sports-primary hover:text-sports-primary/80 transition-smooth"
+            >
               Sports
-            </a>
-            <a href="#ai" className="text-sm font-medium text-ai-primary hover:text-ai-primary/80 transition-smooth">
+            </button>
+            <button 
+              onClick={() => scrollToSection('ai')}
+              className="text-sm font-medium text-ai-primary hover:text-ai-primary/80 transition-smooth"
+            >
               AI
-            </a>
-            <a href="#tech" className="text-sm font-medium text-tech-primary hover:text-tech-primary/80 transition-smooth">
+            </button>
+            <button 
+              onClick={() => scrollToSection('tech')}
+              className="text-sm font-medium text-tech-primary hover:text-tech-primary/80 transition-smooth"
+            >
               Tech
-            </a>
-            <a href="#hollywood" className="text-sm font-medium text-hollywood-primary hover:text-hollywood-primary/80 transition-smooth">
+            </button>
+            <button 
+              onClick={() => scrollToSection('hollywood')}
+              className="text-sm font-medium text-hollywood-primary hover:text-hollywood-primary/80 transition-smooth"
+            >
               Hollywood
-            </a>
+            </button>
           </nav>
 
-          <Button variant="secondary" size="sm" className="hidden md:flex items-center space-x-1">
+          <Button 
+            variant="secondary" 
+            size="sm" 
+            onClick={onGenerateStory}
+            className="hidden md:flex items-center space-x-1 hover:shadow-glow/20 transition-all"
+          >
             <Zap className="h-4 w-4" />
             <span>Generate Story</span>
           </Button>

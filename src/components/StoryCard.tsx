@@ -9,11 +9,15 @@ interface StoryCardProps {
   readTime: string;
   views: string;
   categoryColor: string;
+  onClick: () => void;
 }
 
-const StoryCard = ({ image, title, category, readTime, views, categoryColor }: StoryCardProps) => {
+const StoryCard = ({ image, title, category, readTime, views, categoryColor, onClick }: StoryCardProps) => {
   return (
-    <Card className="group relative overflow-hidden bg-card border-border/50 hover:shadow-story hover:shadow-glow/20 transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+    <Card 
+      onClick={onClick}
+      className="group relative overflow-hidden bg-card border-border/50 hover:shadow-story hover:shadow-glow/20 transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+    >
       <div className="aspect-[3/4] relative overflow-hidden">
         <img 
           src={image} 

@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import CategorySection from "@/components/CategorySection";
+import StoryViewer from "@/components/StoryViewer";
+import { useToast } from "@/hooks/use-toast";
 
 // Import story images
 import sportsStory from "@/assets/sports-story.jpg";
@@ -8,7 +11,20 @@ import aiStory from "@/assets/ai-story.jpg";
 import techStory from "@/assets/tech-story.jpg";
 import hollywoodStory from "@/assets/hollywood-story.jpg";
 
+interface StoryWithCategory {
+  id: string;
+  image: string;
+  title: string;
+  readTime: string;
+  views: string;
+  category: string;
+  categoryColor: string;
+  content: string;
+}
+
 const Index = () => {
+  const [currentStory, setCurrentStory] = useState<StoryWithCategory | null>(null);
+  const { toast } = useToast();
   // Sample story data - will be replaced with real API data
   const sampleStories = [
     {
@@ -41,10 +57,44 @@ const Index = () => {
     }
   ];
 
+  const handleExploreStories = () => {
+    const element = document.getElementById('sports');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleHowItWorks = () => {
+    toast({
+      title: "How It Works",
+      description: "We use GNews API to fetch latest news, then transform them with Gemini AI into anime-style stories!",
+    });
+  };
+
+  const handleGenerateStory = () => {
+    toast({
+      title: "Generate Story",
+      description: "AI story generation coming soon! Connect your GNews and Gemini API keys to start creating.",
+    });
+  };
+
+  const handleStoryClick = (story: StoryWithCategory) => {
+    setCurrentStory(story);
+  };
+
+  const handleViewAll = (category: string) => {
+    toast({
+      title: `View All ${category} Stories`,
+      description: "More stories coming soon with API integration!",
+    });
+  };
+
+  const closeStoryViewer = () => {
+    setCurrentStory(null);
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      <HeroSection />
+      <Header onGenerateStory={handleGenerateStory} />
+      <HeroSection onExploreStories={handleExploreStories} onHowItWorks={handleHowItWorks} />
       
       <CategorySection 
         id="sports"
@@ -53,6 +103,8 @@ const Index = () => {
         stories={sampleStories}
         categoryColor="bg-sports-primary text-white"
         gradientBg="bg-gradient-to-r from-sports-primary to-sports-secondary"
+        onStoryClick={handleStoryClick}
+        onViewAll={() => handleViewAll('Sports')}
       />
       
       <CategorySection 
@@ -62,6 +114,8 @@ const Index = () => {
         stories={sampleStories}
         categoryColor="bg-ai-primary text-white"
         gradientBg="bg-gradient-to-r from-ai-primary to-ai-secondary"
+        onStoryClick={handleStoryClick}
+        onViewAll={() => handleViewAll('AI')}
       />
       
       <CategorySection 
@@ -71,6 +125,8 @@ const Index = () => {
         stories={sampleStories}
         categoryColor="bg-tech-primary text-white"
         gradientBg="bg-gradient-to-r from-tech-primary to-tech-secondary"
+        onStoryClick={handleStoryClick}
+        onViewAll={() => handleViewAll('Tech')}
       />
       
       <CategorySection 
@@ -80,6 +136,17 @@ const Index = () => {
         stories={sampleStories}
         categoryColor="bg-hollywood-primary text-white"
         gradientBg="bg-gradient-to-r from-hollywood-primary to-hollywood-secondary"
+        onStoryClick={handleStoryClick}
+        onViewAll={() => handleViewAll('Hollywood')}
+      />
+      
+      <StoryViewer 
+        story={currentStory}
+        onClose={closeStoryViewer}
+        onNext={() => toast({ title: "Next Story", description: "Navigation between stories coming soon!" })}
+        onPrevious={() => toast({ title: "Previous Story", description: "Navigation between stories coming soon!" })}
+        hasNext={true}
+        hasPrevious={true}
       />
       
       <footer className="bg-secondary/50 border-t border-border py-12">

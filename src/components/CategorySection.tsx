@@ -8,6 +8,9 @@ interface Story {
   title: string;
   readTime: string;
   views: string;
+  category?: string;
+  categoryColor?: string;
+  content?: string;
 }
 
 interface CategorySectionProps {
@@ -17,9 +20,11 @@ interface CategorySectionProps {
   stories: Story[];
   categoryColor: string;
   gradientBg: string;
+  onStoryClick: (story: Story & { category: string; categoryColor: string; content: string }) => void;
+  onViewAll: () => void;
 }
 
-const CategorySection = ({ id, title, description, stories, categoryColor, gradientBg }: CategorySectionProps) => {
+const CategorySection = ({ id, title, description, stories, categoryColor, gradientBg, onStoryClick, onViewAll }: CategorySectionProps) => {
   return (
     <section id={id} className="py-16">
       <div className="container mx-auto px-4">
@@ -45,15 +50,25 @@ const CategorySection = ({ id, title, description, stories, categoryColor, gradi
               readTime={story.readTime}
               views={story.views}
               categoryColor={categoryColor}
+              onClick={() => onStoryClick({ 
+                ...story, 
+                category: title, 
+                categoryColor, 
+                content: `Experience this amazing ${title.toLowerCase()} story in stunning anime style. Follow along as our AI transforms the latest news into captivating visual narratives that bring the story to life with vibrant characters and dynamic scenes.`
+              })}
             />
           ))}
         </div>
 
         <div className="text-center">
-          <Button variant="outline" className={`${categoryColor.includes('bg-sports') ? 'border-sports-primary text-sports-primary hover:bg-sports-primary' :
-            categoryColor.includes('bg-ai') ? 'border-ai-primary text-ai-primary hover:bg-ai-primary' :
-            categoryColor.includes('bg-tech') ? 'border-tech-primary text-tech-primary hover:bg-tech-primary' :
-            'border-hollywood-primary text-hollywood-primary hover:bg-hollywood-primary'} hover:text-white transition-smooth`}>
+          <Button 
+            variant="outline" 
+            onClick={onViewAll}
+            className={`${categoryColor.includes('bg-sports') ? 'border-sports-primary text-sports-primary hover:bg-sports-primary' :
+              categoryColor.includes('bg-ai') ? 'border-ai-primary text-ai-primary hover:bg-ai-primary' :
+              categoryColor.includes('bg-tech') ? 'border-tech-primary text-tech-primary hover:bg-tech-primary' :
+              'border-hollywood-primary text-hollywood-primary hover:bg-hollywood-primary'} hover:text-white transition-smooth`}
+          >
             View All {title} Stories
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

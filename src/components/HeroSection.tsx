@@ -2,7 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, Play } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  onExploreStories: () => void;
+  onHowItWorks: () => void;
+}
+
+const HeroSection = ({ onExploreStories, onHowItWorks }: HeroSectionProps) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div 
@@ -30,12 +35,21 @@ const HeroSection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" className="bg-gradient-primary hover:opacity-90 text-white px-8 py-6 text-lg font-semibold transition-smooth hover:-translate-y-1 shadow-glow">
+          <Button 
+            size="lg" 
+            onClick={onExploreStories}
+            className="bg-gradient-primary hover:opacity-90 text-white px-8 py-6 text-lg font-semibold transition-smooth hover:-translate-y-1 shadow-glow"
+          >
             <Play className="mr-2 h-5 w-5" />
             Explore Stories
           </Button>
           
-          <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white hover:text-background px-8 py-6 text-lg font-semibold backdrop-blur-sm transition-smooth hover:-translate-y-1">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            onClick={onHowItWorks}
+            className="border-white/30 text-white hover:bg-white hover:text-background px-8 py-6 text-lg font-semibold backdrop-blur-sm transition-smooth hover:-translate-y-1"
+          >
             How It Works
           </Button>
         </div>
